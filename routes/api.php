@@ -28,6 +28,10 @@ Route::get('/auth','App\Http\Controllers\LoginController@GetUserInfo');
 Route::post('/auth', 'App\Http\Controllers\LoginController@Login');
 Route::delete('/auth', 'App\Http\Controllers\LoginController@Logout');
 
+
+
+
+///test api
 // Route::post('/post','App\Http\Controllers\GCSController@UploadObject');
 Route::post('/post',
     function (Request $req){
