@@ -27,3 +27,18 @@ Route::put('/user',function(Request $request){
 Route::get('/auth','App\Http\Controllers\LoginController@GetUserInfo');
 Route::post('/auth', 'App\Http\Controllers\LoginController@Login');
 Route::delete('/auth', 'App\Http\Controllers\LoginController@Logout');
+
+// Route::post('/post','App\Http\Controllers\GCSController@UploadObject');
+Route::post('/post',
+    function (Request $req){
+        
+        $ret = App\Http\Controllers\GCSController::UploadObject($req['bucketname'] , $req['blobname'],$req['file'],$req['fileExtension'],TRUE);
+        return $ret;
+    }
+);
+ROUTE::delete('/post/{bucketname}/{blobname}',
+    function(Request $req,$bucketname,$blobname){
+
+        return App\Http\Controllers\GCSController::DeleteObject($bucketname,$blobname);
+    }
+);
