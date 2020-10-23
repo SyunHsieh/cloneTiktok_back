@@ -18,9 +18,10 @@ class CreatePostsTable extends Migration
             $table->string('text');
             $table->string('videourl');
             $table->timestamp('createdate');
-            $table->integer('owner');
+            $table->integer('userid');
         });
     }
+
 
     /**
      * Reverse the migrations.
