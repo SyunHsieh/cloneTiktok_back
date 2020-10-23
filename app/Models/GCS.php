@@ -7,10 +7,11 @@ use google\appengine\api\cloud_storage\CloudStorageTools;
 class GCS 
 {
     private static function _getStorageClient(){
+        
         $storage = new StorageClient([
-            'keyFilePath'=>realpath('./../gcpkey.json')
+            'keyFilePath'=>realpath(env("GCS_IAM_KEY_FILE_PATH",'./../gcpkey.json'))
         ]);
-
+            
         return $storage;
     }
 
@@ -79,7 +80,7 @@ class GCS
    }
 
    public static function IsBlobExists($bucketname , $blobname ){
-        $storage = GCS::getStorageClient();
+        $storage = GCS::_getStorageClient();
         $bucket = $storage->bucket($bucketname);
 
         $object = $bucket->object($blobname);

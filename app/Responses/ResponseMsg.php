@@ -15,6 +15,11 @@ class ResponseMsg {
     const CreateAccountFailed = 'Create account failed.';
     const AccountExists = 'The user account is exists.';
 
+    const CreatePostFailed = 'Create post failed';
+    
+    const GetUserPostsFailed = 'Get user posts failed.';
+    const GetPostFailed = 'Get posts failed';
+
    
 }
 

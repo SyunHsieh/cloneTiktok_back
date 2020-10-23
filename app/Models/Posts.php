@@ -36,7 +36,7 @@ class Posts extends Model
     }
 
     public static function createPost($user , $text , $videourl){
-
+        
         $post = Posts::create([
             'text' => $text , 
             'videourl' => $videourl,
@@ -70,7 +70,7 @@ class Posts extends Model
             ],
             'postInfo'=>[
                  'id' => $this->id,
-                 'videlurl' =>$this->videourl,
+                 'videlurl' =>str_replace('gs:/',env("GCS_HOST","https://storage.googleapis.com"),$this->videourl),
                  'text' => $this->text,
                  'likesCount' =>$this->postStatistics->likescount,
                  'commentsCount' =>$this->postStatistics->commentscount,

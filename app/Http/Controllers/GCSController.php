@@ -12,15 +12,15 @@ class GCSController extends Controller
         $charsLength = strlen($chars);
         $randomStr = '';
         for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charsLength - 1)];
+            $randomStr .= $chars[rand(0, $charsLength - 1)];
         }
-    return $randomStr;
+        return $randomStr;
     }
 
     public static function UploadObject($bucketname , $blobname , $source,$fileExtension , $setPublic,$isRandomBlobName = FALSE){
         $file = fopen($source , 'r');
         $contentType = GCSController::_getFileContentType($fileExtension);
-
+        
         while(GCSModel::IsBlobExists($bucketname, $blobname)){
             if($isRandomBlobName)
                 $blobname = GCSController::genRandomStr();

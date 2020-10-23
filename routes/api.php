@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-    
-
 });
 
 Route::post('/user','App\Http\Controllers\UserController@createAccount');
@@ -29,19 +27,15 @@ Route::post('/auth', 'App\Http\Controllers\LoginController@Login');
 Route::delete('/auth', 'App\Http\Controllers\LoginController@Logout');
 
 
-
-
 ///test api
 // Route::post('/post','App\Http\Controllers\GCSController@UploadObject');
 Route::post('/post',
     function (Request $req){
         
         $user = Auth::user();
-        $url = 'myurl';
-        $ret = App\Http\Controllers\PostsController::CreatePost($user , $req['text'] ,$url);
+
+        $ret = App\Http\Controllers\PostsController::CreatePost($user , $req['text'] ,$req['file']);
         return $ret;
-        // $ret = App\Http\Controllers\GCSController::UploadObject($req['bucketname'] , $req['blobname'],$req['file'],$req['fileExtension'],TRUE);
-        // return $ret;
     }
 );
 ROUTE::delete('/post/{bucketname}/{blobname}',
