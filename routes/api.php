@@ -36,13 +36,35 @@ Route::delete('/auth', 'App\Http\Controllers\LoginController@Logout');
 Route::post('/post',
     function (Request $req){
         
-        $ret = App\Http\Controllers\GCSController::UploadObject($req['bucketname'] , $req['blobname'],$req['file'],$req['fileExtension'],TRUE);
+        $user = Auth::user();
+        $url = 'myurl';
+        $ret = App\Http\Controllers\PostsController::CreatePost($user , $req['text'] ,$url);
         return $ret;
+        // $ret = App\Http\Controllers\GCSController::UploadObject($req['bucketname'] , $req['blobname'],$req['file'],$req['fileExtension'],TRUE);
+        // return $ret;
     }
 );
 ROUTE::delete('/post/{bucketname}/{blobname}',
     function(Request $req,$bucketname,$blobname){
 
         return App\Http\Controllers\GCSController::DeleteObject($bucketname,$blobname);
+    }
+);
+
+ROUTE::get('/user/{userid}/posts' , 
+    function (Request $req,$userid ){
+        
+        $reader = Auth::user();
+        $userid = intval($userid);
+        
+
+        return App\Http\Controllers\PostsController::GetUserPosts($req,$userid,$reader);
+    }
+);
+ROUTE::get('/posts',
+    function(Request $req){
+        $reader = Auth::user();
+
+        return App\Http\Controllers\PostsController::GetPosts($req, $reader);
     }
 );

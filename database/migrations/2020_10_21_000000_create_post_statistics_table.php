@@ -20,7 +20,8 @@ class CreatePostStatisticsTable extends Migration
             $table->bigInteger('commentscount');
         });
     }
-
+    
+    
     /**
      * Reverse the migrations.
      *

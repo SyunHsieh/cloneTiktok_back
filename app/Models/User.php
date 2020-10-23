@@ -54,19 +54,48 @@ class User extends Authenticatable
         else
             return TRUE;
     }
+    public static function getUser($userid){
+        $user = User::where('id',$userid)->first();
+        return $user;
+    }
+    public function getUserPosts($count  , $offset,$reader=NULL ){
+        $posts =  $this->posts()->orderby('createdate','desc')->skip($offset)->take($count )->get();
+        
+        $retData = $posts->map(function($post) use ($reader){
+            return $post->jsonify($reader);
+            // return [
+            //     'userInfo'=>[
+            //         'id' => $post->user->id,
+            //         'name' => $post->user->name,
+            //     ],
+            //     'postInfo'=>[
+            //          'id' => $post->id,
+            //          'videlurl' =>$post->videourl,
+            //          'text' => $post->text,
+            //          'likesCount' =>$post->postStatistics->likescount,
+            //          'commentsCount' =>$post->postStatistics->commentscount,
+            //     ],
+            //     'readersInfo'=>[
+            //          'liked'=>$reader ? $reader->likes()->where('postid',$post->id)->first() !== NULL:999,
+            //          'following'=>$reader ? $reader->followings()->where('targetuserid' , $post->user->id)->first() !== NULL :888
+            //     ]
+            // ];
+        });
+        return $retData;
+    }
     public function posts(){
-        return $this->hasMany('App\posts','userid','id');
+        return $this->hasMany('App\Models\posts','userid','id');
     }
 
     public function followings(){
-        return $this->hasMany('App\following','userid','id');
+        return $this->hasMany('App\Models\following','userid','id');
     }
 
     public function comments(){
-        return $this->hasMany('App\comment' , 'userid' , 'id');
+        return $this->hasMany('App\Models\comment' , 'userid' , 'id');
     }
     public function likes(){
-        return $this->hasMany('App\likes', 'userid','id');
+        return $this->hasMany('App\Models\likes', 'userid','id');
     }
 
 }
