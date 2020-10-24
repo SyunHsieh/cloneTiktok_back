@@ -14,4 +14,7 @@ class ResponseType {
     const GetUserPosts = 'get_user_posts';
     const GetPosts = 'get_posts';
 
+
+    const SetUserLike = 'user_like';
+    
 }

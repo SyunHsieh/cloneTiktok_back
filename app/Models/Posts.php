@@ -58,7 +58,7 @@ class Posts extends Model
         $posts = Posts::orderby('createdate' , 'desc')->skip($offset)->take($count)->get();
 
         $ret = $posts->map(function($post) use ($reader) {
-                return $post->jsonify();
+                return $post->jsonify($reader);
         });
         return $ret;
     }

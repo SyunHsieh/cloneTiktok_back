@@ -22,7 +22,7 @@ class PostsController extends Controller
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
         $videourl = '';
-
+        
         //reader not login 
         if($user === NULL){
             $resMsg = ResponseMsg::NotLogin;
@@ -30,6 +30,7 @@ class PostsController extends Controller
             return $res;
         }
 
+        
         //upload video to GCS.
         $bucketname = env('GCS_BUCKET_NAME','clonetiktok');
         $gcsUploadRet = GCSController::UploadObject($bucketname ,GCSController::genRandomStr(),$source,'mp4', TRUE , TRUE);

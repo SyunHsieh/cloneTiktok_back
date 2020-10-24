@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api','cors')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -31,9 +31,8 @@ Route::delete('/auth', 'App\Http\Controllers\LoginController@Logout');
 // Route::post('/post','App\Http\Controllers\GCSController@UploadObject');
 Route::post('/post',
     function (Request $req){
-        
         $user = Auth::user();
-
+        // return ['msg' => ['file'=>$req['file'], 'text' =>$req->text]];
         $ret = App\Http\Controllers\PostsController::CreatePost($user , $req['text'] ,$req['file']);
         return $ret;
     }
@@ -62,3 +61,16 @@ ROUTE::get('/posts',
         return App\Http\Controllers\PostsController::GetPosts($req, $reader);
     }
 );
+
+ROUTE::post('/like/{targetId}',function(Request $req , $targetID){
+    $postid = intval($targetID);
+    $user = Auth::user();
+    return App\Http\Controllers\UserController::setUserLikesToPost($user , $targetID , TRUE);
+    
+});
+ROUTE::delete('/like/{targetId}',function(Request $req, $targetID){
+    $postid = intval($targetID);
+    $user = Auth::user();
+    return App\Http\Controllers\UserController::setUserLikesToPost($user , $targetID , FALSE);
+
+});

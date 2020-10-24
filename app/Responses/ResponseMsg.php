@@ -5,7 +5,10 @@ namespace App\Responses;
 
 class ResponseMsg {
     const Successed = 'Successed';
+    const RequestDataInvalid = 'Request data is invalied.';
 
+    const AccountIsExists = 'Account exists.';
+    
     const LoginFailed = 'Login failed.';
     const NotLogin = 'Not login.';
     // const LoginSuccessed = 'Login Successed.';
@@ -20,6 +23,8 @@ class ResponseMsg {
     const GetUserPostsFailed = 'Get user posts failed.';
     const GetPostFailed = 'Get posts failed';
 
+    const SetUserLikeFailed = 'Set user like failed.';
+    const TargetPostNotExist = 'The post is not exist.';
    
 }
 
