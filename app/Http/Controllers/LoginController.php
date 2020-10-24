@@ -33,7 +33,7 @@ class LoginController extends Controller
         $resType = ResponseType::Login;
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
-
+        
         if(Auth::attempt(['account'=> $req->account,'password' => $req->password]))
         {   
             //  Store user id in session.

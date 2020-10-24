@@ -100,10 +100,10 @@ class PostsController extends Controller
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
         if($reader === NULL)
-        {
-            $resMsg = ResponseMsg::NotLogin;
-            $res = Response::GetResponseData($resType , $resMsg , $resData);
-            return $res;
+        {   
+            // $resMsg = ResponseMsg::NotLogin;
+            // $res = Response::GetResponseData($resType , $resMsg , $resData);
+            // return $res;
         }
         $count = intval($req->count);
         $offset = intval($req->offset);

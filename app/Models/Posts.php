@@ -70,7 +70,7 @@ class Posts extends Model
             ],
             'postInfo'=>[
                  'id' => $this->id,
-                 'videlurl' =>str_replace('gs:/',env("GCS_HOST","https://storage.googleapis.com"),$this->videourl),
+                 'videourl' =>str_replace('gs:/',env("GCS_HOST","https://storage.googleapis.com"),$this->videourl),
                  'text' => $this->text,
                  'likesCount' =>$this->postStatistics->likescount,
                  'commentsCount' =>$this->postStatistics->commentscount,
