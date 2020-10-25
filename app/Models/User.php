@@ -68,6 +68,20 @@ class User extends Authenticatable
             ]);
             $post->increseCommentsCount();
     }
+    public function deleteComment($commentId){
+        $comment = $this->comments()->where('id' , $commentId)->first();
+
+        // NULL MEANS comment not exist or not comment's owner.
+        if($comment)
+        {
+            $comment->delete();
+            return TRUE;
+        }
+        else
+            return FALSE;
+            
+        
+    }
     public function getUserPosts($count  , $offset,$reader=NULL ){
         $posts =  $this->posts()->orderby('createdate','desc')->skip($offset)->take($count )->get();
         

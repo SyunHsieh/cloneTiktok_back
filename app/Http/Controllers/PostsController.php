@@ -145,19 +145,58 @@ class PostsController extends Controller
         $reader = Auth::user();
         if($reader === NULL)
         {   
-            // $resMsg = ResponseMsg::NotLogin;
-            // $res = Response::GetResponseData($resType , $resMsg , $resData);
-            // return $res;
+            $resMsg = ResponseMsg::NotLogin;
+            $res = Response::GetResponseData($resType , $resMsg , $resData);
+            return $res;
         }
         $count = intval($req->count);
         $offset = intval($req->offset);
 
-        $ret = PostsModel::getPosts($count , $offset , $reader);
+        $posts = PostsModel::getPosts($count , $offset , $reader);
 
         
-        $resData =$ret;
+        $resData =$posts->map(function($post) use($reader){
+            return $post->jsonify($reader);
+        });
+
         $res = Response::GetResponseData($resType , $resMsg , $resData);
         return $res;
 
+    }
+
+    public static function SearchPost(Request $req){
+        $resType = ResponseType::SearchPost;
+        $resMsg = ResponseMsg::Successed;
+        $resData = NULL;
+
+        $validator = Validator::make($req->all(),[
+            'text'=>'required',
+            'count'=>'required',
+            'offset'=>'required'
+            ]);
+
+        if($validator->fails()){
+            $resMsg = ResponseMsg::RequestDataInvalid;
+            return Response::GetResponseData($resType , $resMsg , $resData);
+        }
+
+        $reader = Auth::user();
+        if($reader === NULL)
+        {   
+            $resMsg = ResponseMsg::NotLogin;
+            $res = Response::GetResponseData($resType , $resMsg , $resData);
+            return $res;
+        }
+        $count = intval($req->count);
+        $offset = intval($req->offset);
+        $text = $req->text;
+
+        $posts = PostsModel::searchPost(explode(' ', $text),$count , $offset);
+        $resData =  $posts->map(function($post) use ($reader) {
+            return $post->jsonify($reader);
+        });
+           
+        $res = Response::GetResponseData($resType , $resMsg , $resData);
+        return $res;
     }
 }

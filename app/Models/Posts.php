@@ -67,6 +67,7 @@ class Posts extends Model
         });
         return $ret;
     }
+
     public static function getPost($postid){
         return Posts::where('id',$postid)->first();
     }
@@ -87,15 +88,21 @@ class Posts extends Model
         return ['flag'=>$flag , 'id'=>$id];
         
     }
+    public static function searchPost($textList,$count , $offset){
+        $query = Posts::orderby('createdate','desc');
 
+        foreach($textList as $text){
+            $query->orwhere('text','like','%'.$text.'%');
+        }
+
+        $posts = $query->skip($offset)->take($count)->get();
+        return $posts;
+    }
     ///diff with user.getUserPosts , this function will search all users' posts.
     public static function getPosts($count , $offset , $reader){
         $posts = Posts::orderby('createdate' , 'desc')->skip($offset)->take($count)->get();
 
-        $ret = $posts->map(function($post) use ($reader) {
-                return $post->jsonify($reader);
-        });
-        return $ret;
+        return $posts;
     }
     public function jsonify($reader = NULL){
         $author = $this->user()->first();

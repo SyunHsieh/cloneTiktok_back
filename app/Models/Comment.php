@@ -23,7 +23,7 @@ class Comment extends Model
         $_user = $this->user()->first();
 
         return [
-            'userInfo'=>$_user->josnify(),
+            'userInfo'=>$_user->jsonify(),
             'commentInfo'=>['id'=>$this->id , 'text'=>$this->text , 'datetime'=>$this->datetime]
         ];
     }

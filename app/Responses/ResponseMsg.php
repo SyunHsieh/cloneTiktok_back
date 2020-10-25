@@ -26,5 +26,7 @@ class ResponseMsg {
     const SetUserLikeFailed = 'Set user like failed.';
     const TargetPostNotExist = 'The post is not exist.';
    
+    const SearchPostFailed ='Searching post text failed.abnf';
+    const SearchUserFailed = 'Searching user name failed.';
 }
 

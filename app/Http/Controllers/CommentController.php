@@ -58,7 +58,7 @@ class CommentController extends Controller
         $res = Response::GetResponseData($resType , $resMsg , $resData);
         return $res;
     }
-    
+
     public function GetPostComments(Request $req , $postid){
         $resType = ResponseType::CreatePostComment;
         $resMsg = ResponseMsg::Successed;

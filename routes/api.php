@@ -28,16 +28,18 @@ Route::prefix('/post')->group(function(){
     ROUTE::delete('/{targetId}/like','App\Http\Controllers\LikesController@SetLikesToPost');
 
     ROUTE::post('/{targetId}/comment','App\Http\Controllers\CommentController@SetCommentToPost');
+
     ROUTE::get('/{targetId}/comments','App\Http\Controllers\CommentController@GetPostComments');
-    
+    ROUTE::get('/search','App\Http\Controllers\PostsController@SearchPost');
 });
 
 ROUTE::prefix('/user')->group(function(){
     ROUTE::get('/{userid}/posts','App\Http\Controllers\PostsController@GetUserPosts');
     ROUTE::post('','App\Http\Controllers\UserController@CreateAccount');
+    // ROUTE::get('/search','App\Http\Controllers\UserController@SearchUser');
+
 });
 
 ROUTE::get('/posts','App\Http\Controllers\PostsController@GetPosts');
-
 
 

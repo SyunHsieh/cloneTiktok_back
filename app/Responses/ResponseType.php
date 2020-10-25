@@ -17,4 +17,7 @@ class ResponseType {
 
     const SetUserLike = 'set_user_like';
     const CreatePostComment = 'create_post_comment';
+
+    const SearchUser = 'search_user';
+    const SearchPost = 'search_post';
 }
