@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use DateTime;
 
 class User extends Authenticatable
 {
@@ -32,7 +33,56 @@ class User extends Authenticatable
         'salt'
     ];
     public $timestamps = false;
-    // SHOULD CHECK ACCOUNT EXISTS BEFORE USING isAccountExists();
+    private function posts(){
+        return $this->hasMany('App\Models\posts','userid','id');
+    }
+
+    private function followings(){
+        return $this->hasMany('App\Models\following','userid','id');
+    }
+
+    private function comments(){
+        return $this->hasMany('App\Models\comment' , 'userid' , 'id');
+    }
+    private function likes(){
+        return $this->hasMany('App\Models\likes', 'userid','id');
+    }
+    
+    public function setPostLike($post , $like){
+        $curLike = $this->likes()->where('postid',$post->id)->first();
+        //當 設定值與 實際值不同時才需要update DB.
+        if($curLike===NULL &&$like){
+            $this->likes()->create(['postid'=>$post->id,'datetime'=>new DateTime()]);
+            $post->increseLikesCount();
+        }
+        elseif($curLike!==NULL && !$like){
+            $curLike->delete();
+            $post->decreseLikesCount();
+        }
+    }
+    public function createComment($post , $comment){
+        $this->comments()->create([
+            'postid'=>$post->id ,
+            'text' =>$comment,
+            'datetime' => new DateTime()
+            ]);
+            $post->increseCommentsCount();
+    }
+    public function getUserPosts($count  , $offset,$reader=NULL ){
+        $posts =  $this->posts()->orderby('createdate','desc')->skip($offset)->take($count )->get();
+        
+        $retData = $posts->map(function($post) use ($reader){
+            return $post->jsonify($reader);
+        });
+        return $retData;
+    }
+    public function isFollowing($targetuser){
+        $ret = $this->followings()->where('targetuserid',$targetuser->id)->first();
+        return $ret !== NULL;
+    }
+
+
+
     public static function createUser(string $account , string $passwordhash , string $salt , string $name ){
         // return $userimagepath;
         $user = User::create(
@@ -58,44 +108,7 @@ class User extends Authenticatable
         $user = User::where('id',$userid)->first();
         return $user;
     }
-    public function getUserPosts($count  , $offset,$reader=NULL ){
-        $posts =  $this->posts()->orderby('createdate','desc')->skip($offset)->take($count )->get();
-        
-        $retData = $posts->map(function($post) use ($reader){
-            return $post->jsonify($reader);
-            // return [
-            //     'userInfo'=>[
-            //         'id' => $post->user->id,
-            //         'name' => $post->user->name,
-            //     ],
-            //     'postInfo'=>[
-            //          'id' => $post->id,
-            //          'videlurl' =>$post->videourl,
-            //          'text' => $post->text,
-            //          'likesCount' =>$post->postStatistics->likescount,
-            //          'commentsCount' =>$post->postStatistics->commentscount,
-            //     ],
-            //     'readersInfo'=>[
-            //          'liked'=>$reader ? $reader->likes()->where('postid',$post->id)->first() !== NULL:999,
-            //          'following'=>$reader ? $reader->followings()->where('targetuserid' , $post->user->id)->first() !== NULL :888
-            //     ]
-            // ];
-        });
-        return $retData;
+    public function jsonify(){
+        return ['id'=>$this->id ,'name'=>$this->name];
     }
-    public function posts(){
-        return $this->hasMany('App\Models\posts','userid','id');
-    }
-
-    public function followings(){
-        return $this->hasMany('App\Models\following','userid','id');
-    }
-
-    public function comments(){
-        return $this->hasMany('App\Models\comment' , 'userid' , 'id');
-    }
-    public function likes(){
-        return $this->hasMany('App\Models\likes', 'userid','id');
-    }
-
 }

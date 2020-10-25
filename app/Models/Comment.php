@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Comment extends Model
 {
@@ -14,4 +15,16 @@ class Comment extends Model
     protected $fillable = [
         'userid' , 'postid' , 'text' , 'datetime'
     ];
+    
+    private function user(){
+        return $this->belongsTo('App\Models\user' ,'userid' , 'id');
+    }
+    public function jsonify(){
+        $_user = $this->user()->first();
+
+        return [
+            'userInfo'=>$_user->josnify(),
+            'commentInfo'=>['id'=>$this->id , 'text'=>$this->text , 'datetime'=>$this->datetime]
+        ];
+    }
 }

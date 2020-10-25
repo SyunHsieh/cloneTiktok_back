@@ -13,16 +13,33 @@ use App\Responses\ResponseMsg;
 
 use App\Http\Controllers\GCSController;
 
+use Auth;
+use Validator;
 class PostsController extends Controller
 {
     //
 
-    public static function CreatePost($user , $text,$source ){
+    public static function CreatePost(Request $req  ){
         $resType = ResponseType::CreatePost;
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
+
+        $validator = Validator::make($req->all(),[
+            'text'=>'required',
+            'file'=>'required',
+            ]);
+
+        if($validator->fails()){
+            $resMsg = ResponseMsg::RequestDataInvalid;
+            return Response::GetResponseData($resType , $resMsg , $resData);
+        }
+
         $videourl = '';
+        $user = Auth::user();
+        $text = $req['text'];
+        $source =$req['file'];
         
+
         //reader not login 
         if($user === NULL){
             $resMsg = ResponseMsg::NotLogin;
@@ -65,10 +82,24 @@ class PostsController extends Controller
         
     }
 
-    public static function GetUserPosts($req,$userid ,$reader){
+    public static function GetUserPosts(Request $req,$userid ){
+        
         $resType = ResponseType::GetUserPosts;
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
+
+        $validator = Validator::make($req->all(),[
+            'count'=>'required',
+            'offset'=>'required',
+            ]);
+
+        if($validator->fails()){
+            $resMsg = ResponseMsg::RequestDataInvalid;
+            return Response::GetResponseData($resType , $resMsg , $resData);
+        }
+
+        $reader = Auth::user();
+        $userid = intval($userid);
 
         //check login
         $user = UserModel::getUser($userid);
@@ -87,7 +118,7 @@ class PostsController extends Controller
         }
         $count = intval($req->count);
         $offset = intval($req->offset);
-
+        
         $resData = $user->getUserPosts($count,$offset,$reader);
 
 
@@ -96,10 +127,22 @@ class PostsController extends Controller
     }
 
     // diff with GetUserPosts , this function will search all users' posts.
-    public static function GetPosts($req , $reader){
+    public static function GetPosts(Request $req ){
         $resType = ResponseType::GetPosts;
         $resMsg = ResponseMsg::Successed;
         $resData = NULL;
+
+        $validator = Validator::make($req->all(),[
+            'count'=>'required',
+            'offset'=>'required',
+            ]);
+
+        if($validator->fails()){
+            $resMsg = ResponseMsg::RequestDataInvalid;
+            return Response::GetResponseData($resType , $resMsg , $resData);
+        }
+
+        $reader = Auth::user();
         if($reader === NULL)
         {   
             // $resMsg = ResponseMsg::NotLogin;
