@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Clone Tiktok backend
+# Clone Tiktok Backend
     Clone tiktok using Laravel and Vuejs.
 ## 目的
     1. 主要想使用Laravel 製作server ，並做一個簡易的clone tiktok project.
@@ -17,7 +17,7 @@
 ### **主要支援Mobile mode ,沒有RWD.
 ### **ios上無法於scroll post後 auto play 正在找方法。
     
-   ## Demo video
+   ## Links
 [ DEMO Video on YT](https://youtu.be/wb_pEa6ka9Y)   
 [ FrontEnd VueJS Code Github](https://github.com/SyunSie/cloneTiktok_front)   
 [  Online DEMO Hosting On GAE](https://practice-clonetiktok.df.r.appspot.com/#/) **** 沒有RWD , 請用 MOBILE MODE****
@@ -32,8 +32,7 @@
   <hr>
     
     
-    
-    
+   
 
 2. 主要實現功能使用MVC 實作下列功能
    - Like
@@ -44,9 +43,4 @@
    - Session
    - GCS(Google Cloud Storage)
 
-    
 
-
-<hr/>
-## License
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
