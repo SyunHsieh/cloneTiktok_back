@@ -1,0 +1,39 @@
+runtime: php
+env: flex
+
+automatic_scaling:
+  min_instances: 0
+  max_pending_latency: automatic
+  max_concurrent_requests: 50
+
+# handlers:
+#   - url: /.*
+#     secure: always
+#     redirect_http_response_code: 301
+#     script: auto
+
+runtime_config:
+  document_root: public
+
+env_variables:
+  # Put production environment variables here.
+  APP_LOG: errorlog
+  APP_KEY: <APP_KEY>
+  STORAGE_DIR: /tmp
+  APP_STORAGE: /tmp
+  VIEW_COMPILED_PATH: /tmp
+  LOG_CHANNEL: stackdriver
+  CACHE_DRIVER: database
+  SESSION_DRIVER: database
+  DB_CONNECTION: mysql
+  DB_HOST: "/cloudsql/<SQL_CONNECTION_STRING>"
+  DB_PORT: 3306
+  DB_DATABASE: <DB_NAME>
+  DB_USERNAME: <DB_USER_NAME>
+  DB_PASSWORD: <DB_USER_PASSWORD>
+  DB_SOCKET: "/cloudsql/<SQL_CONNECTION_STRING>"
+  GCS_BUCKET_NAME: <BUCKET_NAME>
+  GCS_IAM_KEY_FILE_PATH: "<BUCKET_KEY_PATH>"
+  GCS_HOST: <GCS_HOST_PATH>
+beta_settings:
+  cloud_sql_instances: "<SQL_CONNECTION_STRING>"

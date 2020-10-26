@@ -21,16 +21,16 @@ class Posts extends Model
     ];
 
     private function user(){
-        return $this->belongsTo('App\Models\user' ,'userid' , 'id');
+        return $this->belongsTo('App\Models\User' ,'userid' , 'id');
     }
     private function likes(){
-        return $this->hasMany('App\Models\likes' , 'postid' , 'id');
+        return $this->hasMany('App\Models\Likes' , 'postid' , 'id');
     }
     private function postStatistics(){
         return $this->hasOne('App\Models\Post_statistics' ,'postid' , 'id');
     }
     private function comments(){
-        return $this->hasMany('App\Models\comment' , 'postid' , 'id');
+        return $this->hasMany('App\Models\Comment' , 'postid' , 'id');
     }
 
 

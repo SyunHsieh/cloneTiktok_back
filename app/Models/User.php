@@ -34,18 +34,18 @@ class User extends Authenticatable
     ];
     public $timestamps = false;
     private function posts(){
-        return $this->hasMany('App\Models\posts','userid','id');
+        return $this->hasMany('App\Models\Posts','userid','id');
     }
 
     private function followings(){
-        return $this->hasMany('App\Models\following','userid','id');
+        return $this->hasMany('App\Models\Following','userid','id');
     }
 
     private function comments(){
-        return $this->hasMany('App\Models\comment' , 'userid' , 'id');
+        return $this->hasMany('App\Models\Comment' , 'userid' , 'id');
     }
     private function likes(){
-        return $this->hasMany('App\Models\likes', 'userid','id');
+        return $this->hasMany('App\Models\Likes', 'userid','id');
     }
     
     public function setPostLike($post , $like){

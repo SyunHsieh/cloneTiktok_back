@@ -17,7 +17,7 @@ class Comment extends Model
     ];
     
     private function user(){
-        return $this->belongsTo('App\Models\user' ,'userid' , 'id');
+        return $this->belongsTo('App\Models\User' ,'userid' , 'id');
     }
     public function jsonify(){
         $_user = $this->user()->first();

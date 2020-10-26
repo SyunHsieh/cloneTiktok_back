@@ -15,7 +15,7 @@ use App\Http\UserControllers\UserController;
 
 Route::get('/', function () {
     // return view('welcome');
-    return File::get(public_path() . '\dist\index.html');
+    return File::get(public_path() . '/dist/index.html');
 });
 // Route::get('/css/{path}', function ($path) {
 //     $response->header('Content-Type', 'style/css');
@@ -23,5 +23,5 @@ Route::get('/', function () {
 // });
 Route::get('/js/{path}', function ($path) {
 
-    return File::get(public_path() . '\dist\js\\'.$path);
+    return File::get(public_path() . '/dist/js/'.$path);
 });
